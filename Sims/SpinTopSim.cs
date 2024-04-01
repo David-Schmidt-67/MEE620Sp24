@@ -78,8 +78,11 @@ public class SpinTopSim : Simulator
     private double CalcKineticEnergyBody()
     {
         //******* Students write this function ********
+        double omegaX = x[3];
+        double omegaY = x[4];
+        double omegaZ = x[5];
 
-        return 0.0;
+        return 0.5*(IGa*omegaY*omegaY + IGp*omegaX*omegaX + IGp*omegaZ*omegaZ + h*h*m*(omegaX*omegaX+omegaZ*omegaZ));
     }
 
     //------------------------------------------------------------------------
@@ -88,8 +91,9 @@ public class SpinTopSim : Simulator
     private double CalcPotentialEnergyBody()
     {
         //******* Students write this function ********
+        double phi = x[1];
 
-        return 0.0;
+        return m*g*h*Math.Cos(phi);
     }
 
     //------------------------------------------------------------------------
@@ -98,8 +102,13 @@ public class SpinTopSim : Simulator
     private double CalcAngMoVertBody()
     {
         //******* Students write this function ********
-        
-        return 0.0;
+        double phi = x[1];
+        double theta = x[2];
+        double omegaX = x[3];
+        double omegaY = x[4];
+        double omegaZ = x[5];
+
+        return IGa*omegaY*Math.Cos(phi) + (IGp+h*h*m)*omegaX*Math.Sin(phi)*Math.Cos(theta) + (IGp+h*h*m)*omegaZ*Math.Sin(phi)*Math.Sin(theta);
     }
 
     //------------------------------------------------------------------------
