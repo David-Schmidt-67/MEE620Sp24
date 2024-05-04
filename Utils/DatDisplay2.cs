@@ -1,5 +1,5 @@
 //============================================================================
-// UIPanelDisplay.cs
+// DatDisplay2.cs
 //============================================================================
 using Godot;
 using System;
@@ -16,18 +16,20 @@ public class DatDisplay2{
 
     Label[] labels;
     Label[] values;
-    String[] fStrings;
-    String[] decStrings;
-    String[] sfxStrings;
+    String[] fStrings;    // format strings
+    String[] decStrings;  // decimal strings
+    String[] sfxStrings;  // suffix strings
     Label title;
 
-    CheckBox[] checkBoxes;
+    public CheckBox[] checkBoxes;
     bool initialized;
 
-
+    //------------------------------------------------------------------------
+    // Constuctor
+    //------------------------------------------------------------------------
     public DatDisplay2(Container pContainer)
     {
-        GD.Print("DatDisplay2 constructor");
+        //GD.Print("DatDisplay2 constructor");
         parent = pContainer;
 
         vbox = new VBoxContainer();
@@ -41,8 +43,13 @@ public class DatDisplay2{
         // parent.AddChild(testButton);
     }
 
-    public void SetNDisplay(int sz, bool _hasTitle = false, bool _hasButtons = false)
+    //------------------------------------------------------------------------
+    // SetNDisplay:
+    //------------------------------------------------------------------------
+    public void SetNDisplay(int sz, bool _hasTitle = false, 
+        bool _hasButtons = false)
     {
+        //GD.Print("Inside SetNDisplay");
         if(initialized)
             return;
 
@@ -85,9 +92,10 @@ public class DatDisplay2{
             //vBoxValues.AddChild(values[i]);
             grid.AddChild(labels[i]);
             grid.AddChild(values[i]);
-            if(hasButtons)
+            if(hasButtons){
                 checkBoxes[i] = new CheckBox();
                 grid.AddChild(checkBoxes[i]);
+            }
 
             fStrings[i] = "0.00";
             decStrings[i] = "0.00";
@@ -97,8 +105,12 @@ public class DatDisplay2{
         //hbox.AddChild(vBoxValues);
 
         nDisp = sz;
+        initialized = true;
     }
 
+    //------------------------------------------------------------------------
+    // SetTitle
+    //------------------------------------------------------------------------
     public void SetTitle(string str)
     {
         if(!hasTitle)
@@ -112,7 +124,7 @@ public class DatDisplay2{
     //------------------------------------------------------------------------
     public void SetLabel(int idx, string str)
     {
-        if(idx < 0 || idx >= nDisp)
+        if(idx < 0 || idx >= nDisp || !initialized)
         {
             return;
         }
@@ -125,7 +137,7 @@ public class DatDisplay2{
     //------------------------------------------------------------------------
     public void SetValue(int idx, float val)
     {
-        if(idx < 0 || idx >= nDisp)
+        if(idx < 0 || idx >= nDisp || !initialized)
         {
             return;
         }
@@ -135,7 +147,7 @@ public class DatDisplay2{
 
     public void SetValue(int idx, string str)
     {
-        if(idx < 0 || idx >= nDisp)
+        if(idx < 0 || idx >= nDisp || !initialized)
         {
             return;
         }
@@ -148,7 +160,7 @@ public class DatDisplay2{
     //------------------------------------------------------------------------
     public void SetDigitsAfterDecimal(int idx, int n)
     {
-        if(idx < 0 || idx >= nDisp)
+        if(idx < 0 || idx >= nDisp || !initialized)
             return;
 
         if(n < 0)
@@ -169,7 +181,7 @@ public class DatDisplay2{
     //------------------------------------------------------------------------
     public void SetSuffix(int idx, String sfx)
     {
-        if(idx < 0 || idx >= nDisp)
+        if(idx < 0 || idx >= nDisp || !initialized)
             return;
 
         sfxStrings[idx] = " " + sfx;
@@ -182,7 +194,7 @@ public class DatDisplay2{
     //------------------------------------------------------------------------
     public void SetSuffixDegree(int idx)
     {
-        if(idx < 0 || idx >= nDisp)
+        if(idx < 0 || idx >= nDisp || !initialized)
             return;
 
         sfxStrings[idx] = " \u00B0";
